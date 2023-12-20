@@ -1,18 +1,14 @@
-export class ADXL375 {
-	#abus
+import { Common } from './common.js'
 
-	/** @param {I2CAddressedBus } abus  */
-	static from(abus) { return new ADXL375(abus) }
+export function ADXL375(abus) {
+	this.abus = abus
+	const obj = this
 
-	constructor(abus) { this.#abus = abus }
+	Object.entries(Common).map(([key, value]) => {
+		obj[key] = (...args) => value(obj.abus, ...args)
+	})
 
-	async getID() { Common.getID(this.#abus) }
-
-	async getDataFormat() { return Common.getDataFormat(this.#abus) }
-	async setDataFormat(profile) { return Common.setDataFormat(this.#abus, profile) }
-
-	async getFIFOControl() { return Common.getFIFOControl(this.#abus) }
-	async setFIFOControl(profile) { return Common.setFIFOControl(this.#abus, profile) }
-
-	async getFIFOStatus() { return Common.getFIFOStatus(this.#abus) }
+	return this
 }
+
+ADXL375.from = abus => new ADXL375(abus)
