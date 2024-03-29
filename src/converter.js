@@ -265,17 +265,18 @@ export class Converter {
 
 	/** @param {ArrayBufferLike|ArrayBufferView} buffer  */
 	static decodeXYZ(buffer) {
-
 		const dv = ArrayBuffer.isView(buffer) ?
 			new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength) :
 			new DataView(buffer)
 
-		const x = dv.getInt16(0)
-		const y = dv.getInt16(2)
-		const z = dv.getInt16(4)
+		const x = dv.getUint16(0, true)
+		const y = dv.getUint16(2, true)
+		const z = dv.getUint16(4, true)
 
 		return {
-			x, y, z
+			x: ((x & 0x8000) === 0x8000) ? -(0x8000 - (x & 0x7fff)) : x,
+			y: ((y & 0x8000) === 0x8000) ? -(0x8000 - (y & 0x7fff)) : y,
+			z: ((z & 0x8000) === 0x8000) ? -(0x8000 - (z & 0x7fff)) : z,
 		}
 	}
 
@@ -292,6 +293,7 @@ export class Converter {
 		const value = 0
 
 		// TODO
+		// 780 mg/LSB.
 
 		return Uint8Array.from([ value ]).buffer
 	}
@@ -305,6 +307,7 @@ export class Converter {
 		const value = 0
 
 		// TODO
+		// 0.196 g/LSB
 
 		return Uint8Array.from([ value ]).buffer
 	}
@@ -318,6 +321,7 @@ export class Converter {
 		const value = 0
 
 		// TODO
+		// 625 µs/LSB
 
 		return Uint8Array.from([ value ]).buffer
 	}
@@ -331,6 +335,7 @@ export class Converter {
 		const value = 0
 
 		// TODO
+		// s 1.25 ms/LSB
 
 		return Uint8Array.from([ value ]).buffer
 	}
@@ -344,6 +349,7 @@ export class Converter {
 		const value = 0
 
 		// TODO
+		//  1.25 ms/LSB
 
 		return Uint8Array.from([ value ]).buffer
 	}
@@ -357,6 +363,7 @@ export class Converter {
 		const value = 0
 
 		// TODO
+		// 780 mg/LSB
 
 		return Uint8Array.from([ value ]).buffer
 	}
@@ -370,6 +377,7 @@ export class Converter {
 		const value = 0
 
 		// TODO
+		// 780 mg/LSB
 
 		return Uint8Array.from([ value ]).buffer
 	}
@@ -383,6 +391,7 @@ export class Converter {
 		const value = 0
 
 		// TODO
+		// 1 sec/LSB
 
 		return Uint8Array.from([ value ]).buffer
 	}
@@ -396,6 +405,7 @@ export class Converter {
 		const value = 0
 
 		// TODO
+		//
 
 		return Uint8Array.from([ value ]).buffer
 	}
@@ -416,10 +426,10 @@ export class Converter {
 	/** @returns {ArrayBuffer} */
 	static encodeBitrateAndPowerMode(profile) {
 		const {
-
+			rate
 		} = profile
 
-		const value = 0
+		const value = 0 | (rate)
 
 		// TODO
 
