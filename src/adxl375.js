@@ -1,5 +1,7 @@
 import { Common } from './common.js'
 
+export const DEFAULT_ADDRESS = 0x53
+
 export function ADXL375(abus) {
 	this.abus = abus
 	const obj = this

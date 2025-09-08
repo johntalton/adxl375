@@ -1,6 +1,7 @@
-import { I2CAddressedBus } from '@johntalton/and-other-delights'
 import { REGISTER, REGISTER_BLOCK } from './registers.js'
 import { Converter } from './converter.js'
+
+/** @import { I2CAddressedBus } from '@johntalton/and-other-delights' */
 
 function getFromByte(reg, converterFn) {
 	/** @param {I2CAddressedBus} abus  */
